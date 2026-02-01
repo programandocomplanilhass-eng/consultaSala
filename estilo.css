@@ -1,0 +1,141 @@
+/* Reset básico */
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f4f6f8;
+  color:#111827;
+}
+
+/* Header + logo */
+header{
+  background:#ffffff;
+  border-bottom:1px solid #e5e7eb;
+  padding:12px 16px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+header img{
+  max-width:220px;
+  width:60%;
+  height:auto;
+  display:block;
+}
+
+/* Título */
+h2{
+  margin:18px 16px 10px;
+  text-align:center;
+  font-size:20px;
+}
+
+/* Container central (faz os blocos ficarem “card”) */
+#consultaDados,
+#salas{
+  width:min(520px, 92vw);
+  margin:12px auto;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  padding:16px;
+}
+
+/* Form de consulta */
+#consultaDados label{
+  display:block;
+  font-size:14px;
+  color:#374151;
+  margin-bottom:8px;
+}
+
+#cpf{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  font-size:16px;
+  outline:none;
+  margin-bottom:12px;
+  background:#fff;
+}
+#cpf:focus{
+  border-color:#2563eb;
+  box-shadow:0 0 0 4px rgba(37,99,235,.15);
+}
+
+/* Botões */
+button{
+  width:100%;
+  padding:12px 14px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+button:hover{ filter:brightness(.95); }
+button:active{ transform:translateY(1px); }
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+/* Resultado (formata as linhas sem mexer no HTML) */
+#salas label{
+  display:inline-block;
+  font-size:14px;
+  color:#374151;
+  margin:6px 0;
+}
+#salas label:nth-of-type(odd){
+  font-weight:700;
+  min-width:120px; /* dá alinhamento */
+}
+#salas label#nome,
+#salas label#cpf_consulta,
+#salas label#situacao,
+#salas label#serie,
+#salas label#turma,
+#salas label#professora{
+  color:#111827;
+  font-weight:600;
+}
+
+/* Destaque da sala */
+#sala{
+  display:block;
+  margin:12px 0 6px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  color:#1e3a8a;
+  font-weight:800;
+  text-align:center;
+}
+
+/* Data/Hora */
+#horarioConsulta{
+  margin-top:10px;
+  font-size:12px;
+  color:#6b7280;
+  text-align:center;
+}
+
+/* Botão compartilhar com uma “cara” diferente */
+#btnCompartilhar{
+  margin-top:12px;
+  background:#16a34a;
+}
+#btnCompartilhar:hover{ filter:brightness(.95); }
+
+/* Melhorias mobile */
+@media (max-width:420px){
+  header img{ width:75%; }
+  h2{ font-size:18px; }
+  #consultaDados, #salas{ padding:14px; }
+}
