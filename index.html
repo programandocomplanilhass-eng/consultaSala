@@ -1,1 +1,245 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <link rel="stylesheet" href="estilo.css">
 
+</head>
+<header>
+  <Img src="LOGO JOAQUIM.jpg"></Img>
+</header>
+<body>
+   
+    <h2>Consulta de salas</h2>
+    <div id="consultaDados">
+    <label>Digite o CPF do Aluno:</label>
+    <input id="cpf" inputmode="numeric" placeholder="CPF (000.000.000-00)" maxlength="14">
+    <button onclick="lerDados()">Buscar</button>
+    </div>
+  
+    <div id="salas" hidden="true">
+    <label>Nome do Aluno: </label><label id="nome"></label><br>
+    <label>CPF: </label><label id="cpf_consulta"></label><br>
+    <label>Situação: </label><label id="situacao"></label><br>
+    <label>Serie: </label><label id="serie"></label><br>
+    <label>Turma: </label><label id="turma"></label><br>
+    <label></label><label id="sala"></label><br>
+    <label>Professora: </label><label id="professora"></label><br>
+    <p id="horarioConsulta"></p>
+    <button id="btnNovaConsulta" onclick="novaConsulta()">Nova consulta</button>
+
+
+
+
+    </div>
+
+
+
+    
+</body>
+
+
+
+
+<script>
+
+function novaConsulta(){
+  // limpa campo CPF
+  document.getElementById("cpf").value = "";
+
+  // esconde resultado
+  document.getElementById("salas").hidden = true;
+
+  // mostra tela de consulta
+  document.getElementById("consultaDados").hidden = false;
+
+  // remove botão de compartilhar (se existir)
+  const btn = document.getElementById("btnCompartilhar");
+  if(btn) btn.remove();
+}
+
+
+
+
+async function enviarConsulta(payload){
+  const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzyzG-fF5z5jbUAIXPYbjZUIU1yfOGzG2o8TxgauA3BpXFFUX8Ks6qZZVW_ITfiTBAN/exec";
+  const r = await fetch(SUBMIT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+    body: new URLSearchParams({ payload: JSON.stringify(payload) }).toString()
+  });
+
+  // se seu Apps Script retornar JSON, isso lê:
+  const data = await r.json().catch(() => ({}));
+  console.log(payload);
+
+  if (!r.ok || data.ok === false) {
+    throw new Error(data.error || `Falha no envio: ${r.status}`);
+  }
+
+  return data; // opcional (ex.: { ok:true, ... })
+}
+
+
+
+async function lerDados() {
+
+
+  const dados = "https://script.google.com/macros/s/AKfycbw2MIAG3YLBvA1zAw2eADTDqwPIHNLuAN3IIby7oTre6Nx-sWaNAGmJRSE3325lyPK0/exec";
+
+  try {
+    const r = await fetch(dados);
+    const json = await r.json();
+
+    // Mostra no console pra você ver a estrutura
+    //console.log("JSON recebido:", json);
+
+    // Confirmações úteis
+    console.log("Total de rows:", json.rows);
+    var contador=0;
+    var dadosAluno="";
+    for(let i=0;i<json.rows;i++){
+      if(json.data?.[i].CPF==document.getElementById("cpf").value){
+        // console.log("Primeiro aluno:", json.data?.[i]);
+         dadosAluno=json.data?.[i];
+         i=json.rows;
+         contador++;
+
+      }
+     
+
+   
+
+    }
+     if(contador<1)
+      {
+        alert("Não encontrado");
+      }
+      else{
+        console.log(dadosAluno);
+
+
+        const payload={
+        CPF: dadosAluno.CPF,
+        NOME:dadosAluno.NOME,
+        TURMA:dadosAluno.TURMA
+
+        
+          };
+   enviarConsulta(payload);
+   consultaDados(dadosAluno);
+   
+
+
+
+      }
+
+  } catch (e) {
+    console.error("Erro ao ler dados:", e);
+  }
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+
+  function consultaDados(dadosAluno){
+
+document.getElementById("nome").innerHTML=dadosAluno.NOME;
+document.getElementById("cpf_consulta").innerHTML=dadosAluno.CPF;
+document.getElementById("serie").innerHTML=dadosAluno.SERIE;
+document.getElementById("turma").innerHTML=dadosAluno.TURMA;
+document.getElementById("situacao").innerHTML="MATRICULADO";
+document.getElementById("sala").innerHTML= "A sala do aluno é: " +dadosAluno.SALA;
+document.getElementById("professora").innerHTML=dadosAluno.PROFESSORA;
+document.getElementById("salas").hidden=false;
+document.getElementById("consultaDados").hidden=true;
+
+ // ✅ cria o botão uma única vez
+    
+       var botao = document.createElement("button");
+      botao.id = "btnCompartilhar";
+      botao.textContent = "Salvar e Compartilhar";
+      botao.onclick = gerarImagemECompartilhar;
+      document.querySelector("#salas").appendChild(botao);
+    
+  }
+
+  
+</script>
+<script>
+  async function gerarImagemECompartilhar(){
+    
+    document.getElementById("btnCompartilhar").hidden=true;
+    document.getElementById("btnNovaConsulta").hidden=true;
+    const alvo = document.getElementById("salas"); // ✅ tira print desse bloco
+
+    const canvas = await html2canvas(alvo, { scale: 2 });
+    const dataUrl = canvas.toDataURL("image/png");
+
+    // ✅ baixa a imagem (funciona no celular)
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "resultado-consulta.png";
+    a.click();
+
+    // ✅ tenta abrir menu de compartilhar do celular (se suportar)
+    if (navigator.share) {
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], "resultado-consulta.png", { type: "image/png" });
+
+      try{
+        await navigator.share({
+          title: "Resultado da Consulta",
+          text: "Segue o resultado da consulta.",
+          files: [file]
+        });
+      } catch(e){
+        // usuário cancelou ou não deu permissão
+        console.log("Compartilhamento cancelado/indisponível:", e);
+      }
+    } else {
+      alert("Imagem baixada. Agora compartilhe pelo WhatsApp na sua galeria/arquivos.");
+    }
+    document.getElementById("btnNovaConsulta").hidden=false;
+    document.getElementById("btnCompartilhar").hidden=false;
+  }
+
+const agora = new Date();
+const horarioFormatado = agora.toLocaleString("pt-BR", {
+  dateStyle: "short",
+  timeStyle: "short"
+});
+
+document.getElementById("horarioConsulta").innerHTML =
+  "Data/Hora: " + horarioFormatado;
+
+
+
+</script>
+
+
+
+<script>
+  const cpfEl = document.getElementById("cpf");
+
+  cpfEl.addEventListener("input", (e) => {
+    let v = e.target.value.replace(/\D/g, "").slice(0, 11); // só números, máx 11
+
+    // monta 000.000.000-00
+    if (v.length > 9) v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2}).*/, "$1.$2.$3-$4");
+    else if (v.length > 6) v = v.replace(/^(\d{3})(\d{3})(\d{0,3}).*/, "$1.$2.$3");
+    else if (v.length > 3) v = v.replace(/^(\d{3})(\d{0,3}).*/, "$1.$2");
+
+    e.target.value = v;
+  });
+
+  // opcional: ao enviar pro Apps Script, mande só números
+  function cpfSomenteNumeros(){
+    return cpfEl.value.replace(/\D/g, "");
+  }
+</script>
+</html>
