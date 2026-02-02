@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-      <link rel="stylesheet" href="estilo.css">
+      <link rel="stylesheet" href="estilo2.css">
 
 </head>
 <header>
@@ -19,6 +19,8 @@
     </div>
   
     <div id="salas" hidden="true">
+    <label>ESCOLA MUNICIPAL JOSÉ PINTO PIMENTA/ANEXO E.E JOSÉ JOAQUIM LAGES </label><br>
+
     <label>Nome do Aluno: </label><label id="nome"></label><br>
     <label>CPF: </label><label id="cpf_consulta"></label><br>
     <label>Situação: </label><label id="situacao"></label><br>
@@ -153,7 +155,7 @@ document.getElementById("cpf_consulta").innerHTML=dadosAluno.CPF;
 document.getElementById("serie").innerHTML=dadosAluno.SERIE;
 document.getElementById("turma").innerHTML=dadosAluno.TURMA;
 document.getElementById("situacao").innerHTML="MATRICULADO";
-document.getElementById("sala").innerHTML= "A sala do aluno é: " +dadosAluno.SALA;
+document.getElementById("sala").innerHTML= "A sala do aluno é a: " +dadosAluno.SALA;
 document.getElementById("professora").innerHTML=dadosAluno.PROFESSORA;
 document.getElementById("salas").hidden=false;
 document.getElementById("consultaDados").hidden=true;
