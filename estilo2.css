@@ -1,0 +1,179 @@
+/* =========================
+   BASE
+========================= */
+*{
+  box-sizing: border-box;
+}
+
+:root{
+  --verde:#e2efd9;
+  --bege:#fce5cd;
+  --texto:#2f2f2f;
+  --borda:#cfd8cc;
+  --destaque:#6aa84f;
+  --cinza:#6b7280;
+}
+
+html, body{
+  margin:0;
+  padding:0;
+  background:var(--verde);
+  color:var(--texto);
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+/* =========================
+   HEADER / LOGO
+========================= */
+header{
+  background:var(--bege);
+  padding:16px 14px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-bottom:3px solid var(--destaque);
+}
+
+header img{
+  width:min(92vw, 440px); /* maior no celular */
+  height:auto;
+}
+
+/* =========================
+   TÍTULO
+========================= */
+h2{
+  text-align:center;
+  margin:16px 12px 8px;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+
+/* =========================
+   CARDS
+========================= */
+#consultaDados,
+#salas{
+  width:min(640px, 94vw);
+  margin:14px auto;
+  background:#ffffff;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  border:2px solid var(--borda);
+}
+
+/* =========================
+   CONSULTA CPF
+========================= */
+#consultaDados label{
+  display:block;
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+#cpf{
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:2px solid var(--borda);
+  font-size:18px;
+  outline:none;
+  margin-bottom:14px;
+}
+
+#cpf:focus{
+  border-color:var(--destaque);
+  box-shadow:0 0 0 4px rgba(106,168,79,.25);
+}
+
+/* =========================
+   BOTÕES
+========================= */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:700;
+  font-family: "Century Gothic", sans-serif;
+  cursor:pointer;
+  background:var(--destaque);
+  color:#fff;
+}
+
+button:hover{
+  filter:brightness(.95);
+}
+
+#btnCompartilhar{
+  background:#93c47d;
+  margin-top:12px;
+}
+
+#btnNovaConsulta{
+  background:var(--cinza);
+  margin-top:10px;
+}
+
+/* =========================
+   RESULTADO
+========================= */
+#salas label{
+  display:inline-block;
+  font-size:15px;
+  margin:6px 0;
+}
+
+#salas label:nth-of-type(odd){
+  font-weight:700;
+  min-width:130px;
+}
+
+/* =========================
+   SALA (DESTAQUE)
+========================= */
+#sala{
+  display:block;
+  margin:16px 0 10px;
+  padding:16px;
+  background:var(--verde);
+  border:2px dashed var(--destaque);
+  border-radius:16px;
+  text-align:center;
+  font-size:20px;
+  font-weight:800;
+  color:#274e13;
+}
+
+/* =========================
+   HORÁRIO
+========================= */
+#horarioConsulta{
+  margin-top:12px;
+  text-align:center;
+  font-size:13px;
+  color:#555;
+}
+
+/* =========================
+   MOBILE (IMAGEM GRANDE)
+========================= */
+@media (max-width:480px){
+  h2{ font-size:20px; }
+  #consultaDados,#salas{
+    padding:16px;
+    width:95vw;
+  }
+  button{ font-size:18px; }
+  #cpf{ font-size:19px; }
+}
+
+/* =========================
+   AJUSTE PARA PRINT / IMAGEM
+========================= */
+#salas{
+  max-width:720px; /* deixa a imagem maior ao gerar */
+}
